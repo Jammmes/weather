@@ -1,0 +1,10 @@
+@import '../../../styles.scss';
+
+.root {
+  padding: $gutter-8 $gutter-10;
+  border-top: 1px solid $element-color;
+}
+
+.fullWidth{
+  padding: $gutter-8 0;
+}
