@@ -1,0 +1,19 @@
+@import '../../styles.scss';
+
+.root{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.footer{
+  height: 20px;
+  background: $footer-back-color;
+  color: $footer-text-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+
