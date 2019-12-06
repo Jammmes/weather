@@ -8,13 +8,17 @@ import '@/styles/global.scss';
 import { Home } from '@/pages/home';
 import { Active } from '@/pages/active';
 import { Deleted } from '@/pages/deleted';
+import { AppHeader } from '@/components/app-header';
+import { AppFooter } from '@/components/app-footer';
 
 class App extends React.Component<{}> {
   public render() {
     return (
       <Router>
         <Layout>
-          <Header> Header</Header>
+          <Header>
+            <AppHeader />
+          </Header>
           <Content>
             <Switch>
               <Route path='/all' component={Home} />
@@ -23,7 +27,9 @@ class App extends React.Component<{}> {
               <Redirect to='/all' />
             </Switch>
           </Content>
-          <Footer>Footer</Footer>
+          <Footer>
+            <AppFooter />
+          </Footer>
         </Layout>
       </Router>
     );
