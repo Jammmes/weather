@@ -10,6 +10,19 @@ export const AppHeader: FunctionComponent<{}> = () => {
 
   const appHeaderProps = {
     onTabChange,
+    tabs: [
+      {
+        caption: 'All',
+        id: '1',
+      },
+      {
+        caption: 'Active',
+        id: '2',
+      },
+      {
+        caption: 'Deleted',
+        id:'3',
+      }],
   };
 
   return (
