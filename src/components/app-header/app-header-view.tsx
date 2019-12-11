@@ -8,7 +8,7 @@ import styles from './app-header-view.scss';
 import { ITab } from '../tabs/tabs';
 
 export interface IAppHeaderViewProps {
-  onTabChange: () => void;
+  onTabChange: (value:any) => void;
   tabs: ITab[];
 }
 
