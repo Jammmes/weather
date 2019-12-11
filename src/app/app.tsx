@@ -1,20 +1,29 @@
 import React from 'react';
-import { Header, Content, Footer, Layout } from '@/components/layout';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
+import { ConnectedRouter } from 'connected-react-router';
+import { createBrowserHistory, History } from 'history';
+import { Provider, ReactReduxContext } from 'react-redux';
 
 import '@/styles/global.scss';
 
+import { Header, Content, Footer, Layout } from '@/components/layout';
+import { configureStore } from '@/store/store';
 import { Home } from '@/pages/home';
 import { Active } from '@/pages/active';
 import { Deleted } from '@/pages/deleted';
 import { AppHeader } from '@/components/app-header';
 import { AppFooter } from '@/components/app-footer';
 
+const history:any = createBrowserHistory();
+
+const store = configureStore();
+
 class App extends React.Component<{}> {
   public render() {
     return (
-      <Router>
+      <Provider store={store}>
+      <ConnectedRouter history={history} context={ReactReduxContext}>
         <Layout>
           <Header>
             <AppHeader />
@@ -31,7 +40,8 @@ class App extends React.Component<{}> {
             <AppFooter />
           </Footer>
         </Layout>
-      </Router>
+      </ConnectedRouter>
+      </Provider>
     );
   }
 }
