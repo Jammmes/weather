@@ -6,7 +6,7 @@ import { History } from 'history';
 const createRootReducer = (history: any) =>
   combineReducers({
     router: connectRouter(history),
-    // ...cities,
+    ...cities,
   });
 
 export default createRootReducer;

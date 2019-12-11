@@ -1,6 +1,10 @@
 import { IAddCity, ADD_CITY } from './actions';
 
-const citiesReducer = (state:any, action: IAddCity) => {
+const initState = {
+  city: '',
+};
+
+const citiesReducer = (state: any = initState, action: IAddCity) => {
   switch (action.type) {
     case ADD_CITY: {
       const { city } = action.payload;
