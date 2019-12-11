@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import { cities } from '@/pages/reducer';
-import { connectRouter } from 'connected-react-router';
+import { RouterState, connectRouter } from 'connected-react-router';
 import { History } from 'history';
 
-export default (history:any) =>
+const createRootReducer = (history: any) =>
   combineReducers({
     router: connectRouter(history),
-    ...cities,
+    // ...cities,
   });
+
+export default createRootReducer;
