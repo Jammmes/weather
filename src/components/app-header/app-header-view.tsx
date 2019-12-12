@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Input, PageHeader } from 'antd';
+import { Input, PageHeader, Button } from 'antd';
 import 'antd/lib/input/style/css';
 import 'antd/lib/page-header/style/css';
 
@@ -16,9 +16,10 @@ export interface IAppHeaderViewProps {
 export const AppHeaderView: FunctionComponent<IAppHeaderViewProps> = ({ onTabChange, tabs }) => {
   return (
     <div className={styles.root}>
-      <PageHeader title='This website provides a information about weather'>
+      <div className={styles.search}>
         <Input placeholder='input city name' />
-      </PageHeader>
+        <Button type='primary' icon='search'>Search</Button>
+      </div>
       <Tabs onChange={onTabChange} tabs={tabs} />
     </div>
   );
