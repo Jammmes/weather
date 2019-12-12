@@ -13,5 +13,5 @@ export const Table: FunctionComponent<ItableProps> = ({
     dataSource,
     columns,
 }) => {
-    return <AntTable dataSource={dataSource} columns={columns} />;
+    return <AntTable dataSource={dataSource} columns={columns} bordered pagination={false} />;
 }

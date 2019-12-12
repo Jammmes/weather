@@ -3,7 +3,6 @@ import { Tabs as AntTabs } from 'antd';
 import 'antd/lib/tabs/style/css';
 
 import styles from './tabs.scss';
-import { string, number } from 'prop-types';
 
 const { TabPane } = AntTabs;
 
@@ -12,12 +11,12 @@ export interface ITab {
   id: string;
 }
 export interface ITabsProps {
-  onChange: (value:any) => void;
+  onChange: (value: any) => void;
   tabs: ITab[];
   content?: ReactNode[];
 }
 
-export const Tabs:FunctionComponent<ITabsProps> = ({ onChange, tabs, content }) => {
+export const Tabs: FunctionComponent<ITabsProps> = ({ onChange, tabs, content }) => {
 
   const renderTabs = tabs.map(tab => {
     return <TabPane tab={tab.caption} key={tab.id}>{content}</TabPane>;
