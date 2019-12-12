@@ -1,24 +1,26 @@
 import React, { FunctionComponent } from 'react';
-import { Input, PageHeader } from 'antd';
+import { Input, PageHeader, Button } from 'antd';
 import 'antd/lib/input/style/css';
 import 'antd/lib/page-header/style/css';
-import { Tabs } from '@/components/tabs';
 
 import styles from './app-header-view.scss';
+
+import { Tabs } from '@/components/tabs';
 import { ITab } from '../tabs/tabs';
 
 export interface IAppHeaderViewProps {
-  onTabChange: () => void;
+  onTabChange: (value: any) => void;
   tabs: ITab[];
 }
 
 export const AppHeaderView: FunctionComponent<IAppHeaderViewProps> = ({ onTabChange, tabs }) => {
   return (
     <div className={styles.root}>
-      <PageHeader title='This website provides a information about weather'>
-        <Input placeholder='input city name'  />
-      </PageHeader>
-      <Tabs onChange = {onTabChange} tabs = {tabs}/>
+      <div className={styles.search}>
+        <Input placeholder='input city name' />
+        <Button type='primary' icon='search'>Search</Button>
+      </div>
+      <Tabs onChange={onTabChange} tabs={tabs} />
     </div>
   );
 };

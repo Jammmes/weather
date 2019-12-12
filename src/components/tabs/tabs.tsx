@@ -12,7 +12,7 @@ export interface ITab {
   id: string;
 }
 export interface ITabsProps {
-  onChange: () => void;
+  onChange: (value:any) => void;
   tabs: ITab[];
   content?: ReactNode[];
 }
