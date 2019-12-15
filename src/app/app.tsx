@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { hot } from 'react-hot-loader';
+import { hot } from 'react-hot-loader/root';
 import { ConnectedRouter } from 'connected-react-router';
 import { Provider, ReactReduxContext } from 'react-redux';
 
@@ -44,4 +44,4 @@ class App extends React.Component<{}> {
   }
 }
 
-export default hot(module)(App);
+export default hot(App);
