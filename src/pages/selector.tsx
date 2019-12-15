@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@/components/button';
 import { Dispatch } from 'redux';
 import { addCity } from './actions';
+import { ICity } from './reducer';
 
 
 export const useTable = (data: any[], dispatch: Dispatch) => {
@@ -13,8 +14,19 @@ export const useTable = (data: any[], dispatch: Dispatch) => {
       title: 'City',
       dataIndex: 'city',
       key: 'city',
-      render: (text: string, record: any) => <Button type='link' onClick={() => dispatch(addCity(record.city))}>{record.city}</Button>,
-
+      render: (text: string, record: any) => {
+        const city: ICity = {
+          id: record.key,
+          name: record.city,
+          temperature: record.temperature,
+          position: record.position,
+          isDeleted: record.isDeleted,
+        };
+        return (
+          <Button type='link' onClick={() => dispatch(addCity(city))} >
+            {record.city}
+          </Button>);
+      }
     },
     {
       title: 'Temperature',
