@@ -8,23 +8,24 @@ export type ButtonSizes = 'small' | 'default' | 'large';
 export type ButtonTypes = 'link' | 'default' | 'ghost' | 'primary' | 'dashed' | 'danger';
 
 export interface IButton {
-  disabled?:boolean;
-  icon?:string;
-  size?:ButtonSizes;
-  type?:ButtonTypes;
+  disabled?: boolean;
+  icon?: string;
+  size?: ButtonSizes;
+  type?: ButtonTypes;
   onClick?: () => void;
 }
 
-export const Button: FunctionComponent<IButton> =  ({
+export const Button: FunctionComponent<IButton> = ({
   disabled,
   icon,
   size,
   type,
   children,
+  onClick = () => false,
 }) => {
 
   return (
-    <AntButton disabled={disabled} icon={icon} size={size} type={type}>
+    <AntButton disabled={disabled} icon={icon} size={size} type={type} onClick={onClick}>
       {children}
     </AntButton>
   );
