@@ -13,5 +13,14 @@ export const Table: FunctionComponent<ITableProps> = ({
   dataSource,
   columns,
 }) => {
-  return <AntTable dataSource={dataSource} columns={columns} bordered pagination={false} size='small'/>;
+  return (
+  <AntTable
+    dataSource={dataSource}
+    columns={columns}
+    bordered
+    pagination={false}
+    size='small'
+    rowKey={(record:any) => record.id}
+  />)
+  ;
 };
