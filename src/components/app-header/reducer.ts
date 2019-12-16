@@ -8,8 +8,8 @@ const initState: ISearchState = {
   query: '',
 };
 
-export const searchSelector = (state: { query:ISearchState }) => {
-  return state.query;
+export const searchSelector = (state: { search: ISearchState }) => {
+  return state.search;
 };
 
 const searchReducer = (state: any = initState, action: ISearchAction) => {
