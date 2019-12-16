@@ -1,6 +1,7 @@
 import { ICity } from './reducer';
 import { GET_WEATHER_BY_CITY_NAME } from '@/api/endpoints';
 import { Dispatch } from 'redux';
+import axios from 'axios';
 
 export const ADD_CITY = 'ADD_CITY';
 
@@ -24,6 +25,7 @@ export const MOVE_DOWN_CITY = 'MOVE_DOWN_CITY';
 export const MOVE_UP_CITY = 'MOVE_UP_CITY';
 export const REMOVE_CITY = 'REMOVE_CITY';
 export const RESTORE_CITY = 'RESTORE_CITY';
+export const ADD_CITY_ERROR = 'ADD_CITY_ERROR';
 
 export interface IMoveDownCity {
   type: typeof MOVE_DOWN_CITY;
@@ -32,7 +34,7 @@ export interface IMoveDownCity {
   };
 }
 
-export const moveDownCity = (id:string): IMoveDownCity => {
+export const moveDownCity = (id: string): IMoveDownCity => {
   return {
     type: MOVE_DOWN_CITY,
     payload: {
@@ -48,7 +50,7 @@ export interface IMoveUpCity {
   };
 }
 
-export const moveUpCity = (id:string): IMoveUpCity => {
+export const moveUpCity = (id: string): IMoveUpCity => {
   return {
     type: MOVE_UP_CITY,
     payload: {
@@ -64,7 +66,7 @@ export interface IRemoveCity {
   };
 }
 
-export const removeCity = (id:string): IRemoveCity => {
+export const removeCity = (id: string): IRemoveCity => {
   return {
     type: REMOVE_CITY,
     payload: {
@@ -80,7 +82,7 @@ export interface IRestoreCity {
   };
 }
 
-export const restoreCity = (id:string): IRestoreCity => {
+export const restoreCity = (id: string): IRestoreCity => {
   return {
     type: RESTORE_CITY,
     payload: {
@@ -89,18 +91,44 @@ export const restoreCity = (id:string): IRestoreCity => {
   };
 };
 
-function loadCity(name:string) {
-  return (dispatch:Dispatch) => fetch(GET_WEATHER_BY_CITY_NAME(name))
-    .then(res => res.json())
+export const searchCity = (name: string) => {
+  return (dispatch: Dispatch) => axios(GET_WEATHER_BY_CITY_NAME(name))
+    .then(res => res.data)
     .then(
-      data => dispatch({ type: 'LOAD_SOME_DATA_SUCCESS', data }),
-      err => dispatch({ type: 'LOAD_SOME_DATA_FAILURE', err }),
+      data => {
+        const newCity = {
+          id: data.id,
+          name: data.name,
+          temperature: data.main.temp,
+          position: 0,
+          isDeleted: false,
+        };
+        dispatch(addCity(newCity));
+      },
+      err => dispatch(addCityError(err)),
     );
+};
+
+export interface IAddCityError {
+  type: typeof ADD_CITY_ERROR;
+  payload: {
+    error: string,
+  };
 }
+
+export const addCityError = (error: string): IAddCityError => {
+  return {
+    type: ADD_CITY_ERROR,
+    payload: {
+      error,
+    },
+  };
+};
 
 export type ICitiesAction =
   IAddCity
-| IMoveDownCity
-| IMoveUpCity
-| IRemoveCity
-| IRestoreCity;
+  | IMoveDownCity
+  | IMoveUpCity
+  | IRemoveCity
+  | IRestoreCity
+  ;
