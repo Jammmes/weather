@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 
 import { AppHeaderView } from './app-header-view';
+import { changeSearchString } from './actions';
 
 export const AppHeader: FunctionComponent<{}> = () => {
 
@@ -11,6 +12,11 @@ export const AppHeader: FunctionComponent<{}> = () => {
   const onTabChange = useCallback((activeTab: string) => {
     dispatch(push(`/${activeTab}`));
   }, [dispatch]);
+
+  const onQueryChange = useCallback((event) => {
+    const { target : { value } } = event;
+    dispatch(changeSearchString(value));
+  }, []);
 
   const appHeaderProps = {
     onTabChange,
@@ -27,6 +33,7 @@ export const AppHeader: FunctionComponent<{}> = () => {
         caption: 'Deleted',
         id: 'deleted',
       }],
+    onQueryChange,
   };
 
   return (
