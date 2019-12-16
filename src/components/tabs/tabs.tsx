@@ -23,8 +23,11 @@ export const Tabs: FunctionComponent<ITabsProps> = ({ onChange, tabs, content })
   });
 
   return (
-    <AntTabs onChange={onChange} type='card'>
-      {renderTabs}
-    </AntTabs>
+    <div className={styles.root}>
+      <AntTabs onChange={onChange} type='card' size='small'>
+        {renderTabs}
+      </AntTabs>
+    </div>
+
   );
 };

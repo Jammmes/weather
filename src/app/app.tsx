@@ -14,6 +14,7 @@ import { Deleted } from '@/pages/deleted';
 import { AppHeader } from '@/components/app-header';
 import { AppFooter } from '@/components/app-footer';
 import { getHistory } from '@/utils/history/history';
+import { AppContent } from '@/components/app-content';
 
 const store = configureStore();
 
@@ -27,12 +28,14 @@ class App extends React.Component<{}> {
               <AppHeader />
             </Header>
             <Content>
-              <Switch>
-                <Route path='/all' component={All} />
-                <Route path='/active' component={Active} />
-                <Route path='/deleted' component={Deleted} />
-                <Redirect to='/all' />
-              </Switch>
+              <AppContent>
+                <Switch>
+                  <Route path='/all' component={All} />
+                  <Route path='/active' component={Active} />
+                  <Route path='/deleted' component={Deleted} />
+                  <Redirect to='/all' />
+                </Switch>
+              </AppContent>
             </Content>
             <Footer>
               <AppFooter />

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import styles from './pages.scss';
+import styles from '../pages.scss';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { citiesSelector } from '../reducer';

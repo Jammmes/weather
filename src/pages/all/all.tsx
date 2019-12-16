@@ -1,7 +1,7 @@
 
 import React, { FunctionComponent } from 'react';
 
-import styles from './pages.scss';
+import styles from '../pages.scss';
 
 import { Table } from '@/components/table';
 import { useTable } from '../selector';
