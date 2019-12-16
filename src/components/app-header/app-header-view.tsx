@@ -19,7 +19,7 @@ export const AppHeaderView: FunctionComponent<IAppHeaderViewProps> = ({ onTabCha
   return (
     <div className={styles.root}>
       <div className={styles.search}>
-        <Input placeholder='input city name' onChange={onQueryChange} />
+        <Input placeholder='input city name' onChange={onQueryChange} onPressEnter={onSearch} />
         <Button type='primary' icon='search' onClick={onSearch}>Search</Button>
       </div>
       <Tabs onChange={onTabChange} tabs={tabs} />

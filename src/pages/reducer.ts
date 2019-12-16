@@ -12,6 +12,7 @@ export interface ICity {
   temperature: number;
   position: number;
   isDeleted: boolean;
+  icon: string;
 }
 
 export interface ICitiesState {
@@ -20,7 +21,7 @@ export interface ICitiesState {
   error: string;
 }
 
-export const citiesSelector = (state: { cities:ICitiesState }) => {
+export const citiesSelector = (state: { cities: ICitiesState }) => {
   return state.cities;
 };
 
@@ -34,7 +35,7 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
     case MOVE_UP_CITY: {
       const { id } = action.payload;
       const { list } = state;
-      const newList = list.map((city:ICity) => {
+      const newList = list.map((city: ICity) => {
         if (city.id === id) {
           city.position++;
         }
@@ -45,7 +46,7 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
     case MOVE_DOWN_CITY: {
       const { id } = action.payload;
       const { list } = state;
-      const newList = list.map((city:ICity) => {
+      const newList = list.map((city: ICity) => {
         if (city.id === id) {
           city.position--;
         }
@@ -56,7 +57,7 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
     case REMOVE_CITY: {
       const { id } = action.payload;
       const { list } = state;
-      const newList = list.map((city:ICity) => {
+      const newList = list.map((city: ICity) => {
         if (city.id === id) {
           city.isDeleted = true;
         }
@@ -67,7 +68,7 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
     case RESTORE_CITY: {
       const { id } = action.payload;
       const { list } = state;
-      const newList = list.map((city:ICity) => {
+      const newList = list.map((city: ICity) => {
         if (city.id === id) {
           city.isDeleted = false;
         }

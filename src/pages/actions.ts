@@ -102,6 +102,7 @@ export const searchCity = (name: string) => {
           temperature: data.main.temp,
           position: 0,
           isDeleted: false,
+          icon: data.weather[0].icon,
         };
         dispatch(addCity(newCity));
       },
