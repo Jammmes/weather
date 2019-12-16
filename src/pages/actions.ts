@@ -1,4 +1,6 @@
 import { ICity } from './reducer';
+import { GET_WEATHER_BY_CITY_NAME } from '@/api/endpoints';
+import { Dispatch } from 'redux';
 
 export const ADD_CITY = 'ADD_CITY';
 
@@ -86,6 +88,15 @@ export const restoreCity = (id:string): IRestoreCity => {
     },
   };
 };
+
+function loadCity(name:string) {
+  return (dispatch:Dispatch) => fetch(GET_WEATHER_BY_CITY_NAME(name))
+    .then(res => res.json())
+    .then(
+      data => dispatch({ type: 'LOAD_SOME_DATA_SUCCESS', data }),
+      err => dispatch({ type: 'LOAD_SOME_DATA_FAILURE', err }),
+    );
+}
 
 export type ICitiesAction =
   IAddCity
