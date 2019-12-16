@@ -8,7 +8,7 @@ import '@/styles/global.scss';
 
 import { Header, Content, Footer, Layout } from '@/components/layout';
 import { configureStore } from '@/store/store';
-import { Home } from '@/pages/home';
+import { All } from '@/pages/all';
 import { Active } from '@/pages/active';
 import { Deleted } from '@/pages/deleted';
 import { AppHeader } from '@/components/app-header';
@@ -28,7 +28,7 @@ class App extends React.Component<{}> {
             </Header>
             <Content>
               <Switch>
-                <Route path='/all' component={Home} />
+                <Route path='/all' component={All} />
                 <Route path='/active' component={Active} />
                 <Route path='/deleted' component={Deleted} />
                 <Redirect to='/all' />

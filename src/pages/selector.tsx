@@ -2,6 +2,9 @@ import React from 'react';
 import { Button } from '@/components/button';
 import { Dispatch } from 'redux';
 import { ICity } from './reducer';
+
+import styles from './pages.scss';
+
 import { moveUpCity, moveDownCity, restoreCity, removeCity } from './actions';
 import { PageTypes } from '@/app/types';
 import { GET_WEATHER_ICON } from '@/api/endpoints';
@@ -41,7 +44,7 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
       dataIndex: 'icon',
       key: 'icon',
       render: (text: string, record: any) =>
-        <img src={GET_WEATHER_ICON(record.icon)} alt='icon' />
+        <img className={styles.icon} src={GET_WEATHER_ICON(record.icon)} alt='icon' />
     },
     {
       title: 'Temperature',

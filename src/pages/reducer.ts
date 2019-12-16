@@ -30,6 +30,7 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
     case ADD_CITY: {
       const { list } = state;
       const { city } = action.payload;
+      city.position = list.length;
       return { ...state, list: [...list, city] };
     }
     case MOVE_UP_CITY: {
