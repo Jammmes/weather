@@ -1,7 +1,20 @@
 import React, { FunctionComponent } from 'react';
 
 import styles from './active.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { citiesSelector } from '../reducer';
+import { useTable } from '../selector';
+import { Table } from '@/components/table';
 
 export const Active: FunctionComponent<{}> = () => {
-  return <div className={styles.root}>active</div>;
+
+  const dispatch = useDispatch();
+
+  const state = useSelector(citiesSelector);
+  const { list } = state;
+  const { dataSource, columns } = useTable(list, dispatch, 'ACTIVE');
+
+  return <div className={styles.root}>
+    <Table columns={columns} dataSource={dataSource} />
+  </div>;
 }

@@ -1,7 +1,20 @@
 import React, { FunctionComponent } from 'react';
 
 import styles from './deleted.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { citiesSelector } from '../reducer';
+import { useTable } from '../selector';
+import { Table } from '@/components/table';
 
 export const Deleted: FunctionComponent<{}> = () => {
-    return <div className={styles.root}>deleted</div>;
+
+    const dispatch = useDispatch();
+
+    const state = useSelector(citiesSelector);
+    const { list } = state;
+    const { dataSource, columns } = useTable(list, dispatch, 'DELETED');
+
+    return <div className={styles.root}>
+        <Table columns={columns} dataSource={dataSource} />
+    </div>;
 }
