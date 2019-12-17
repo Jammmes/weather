@@ -1,4 +1,13 @@
-import { ADD_CITY, MOVE_UP_CITY, ICitiesAction, MOVE_DOWN_CITY, REMOVE_CITY, RESTORE_CITY, SET_PENDING } from './actions';
+import {
+  ADD_CITY_SUCCESS,
+  MOVE_UP_CITY,
+  ICitiesAction,
+  MOVE_DOWN_CITY,
+  REMOVE_CITY,
+  RESTORE_CITY,
+  SET_PENDING,
+  ADD_CITY_ERROR,
+} from './actions';
 
 const initState: ICitiesState = {
   list: [],
@@ -27,34 +36,61 @@ export const citiesSelector = (state: { cities: ICitiesState }) => {
 
 const citiesReducer = (state: any = initState, action: ICitiesAction) => {
   switch (action.type) {
-    case ADD_CITY: {
+
+    case ADD_CITY_SUCCESS: {
       const { list } = state;
       const { city } = action.payload;
       city.position = list.length;
-      return { ...state, list: [...list, city] };
+      const sameCity = list.filter((item: ICity) => item.id === city.id);
+      let newList = [];
+      // if we have the same, just update it
+      if (sameCity.length) {
+        newList = list.map((item: ICity) => {
+          if (item.id === city.id) {
+            item.temperature = city.temperature;
+            item.icon = city.icon;
+          }
+          return item;
+        });
+      } else {
+        newList = [...list, city];
+      }
+      return { ...state, error: '', list: newList };
     }
+
+    case ADD_CITY_ERROR: {
+      const { error } = action.payload;
+      return { ...state, error };
+    }
+
     case MOVE_UP_CITY: {
       const { id } = action.payload;
       const { list } = state;
       const newList = list.map((city: ICity) => {
         if (city.id === id) {
-          city.position++;
+          if (city.position < list.length) {
+            city.position++;
+          }
         }
         return city;
       });
       return { ...state, list: [...newList] };
     }
+
     case MOVE_DOWN_CITY: {
       const { id } = action.payload;
       const { list } = state;
       const newList = list.map((city: ICity) => {
         if (city.id === id) {
-          city.position--;
+          if (city.position > 0) {
+            city.position--;
+          }
         }
         return city;
       });
       return { ...state, list: [...newList] };
     }
+
     case REMOVE_CITY: {
       const { id } = action.payload;
       const { list } = state;
@@ -66,6 +102,7 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
       });
       return { ...state, list: [...newList] };
     }
+
     case RESTORE_CITY: {
       const { id } = action.payload;
       const { list } = state;
@@ -77,10 +114,12 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
       });
       return { ...state, list: [...newList] };
     }
+
     case SET_PENDING: {
       const { switched } = action.payload;
-      return { ...state, isPending:switched };
+      return { ...state, isPending: switched };
     }
+
     default:
       return state;
   }
