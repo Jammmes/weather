@@ -26,6 +26,23 @@ export const MOVE_UP_CITY = 'MOVE_UP_CITY';
 export const REMOVE_CITY = 'REMOVE_CITY';
 export const RESTORE_CITY = 'RESTORE_CITY';
 export const ADD_CITY_ERROR = 'ADD_CITY_ERROR';
+export const SET_PENDING = 'SET_PENDING';
+
+export interface ISetPending {
+  type: typeof SET_PENDING;
+  payload: {
+    switched: boolean,
+  };
+}
+
+export const setPending = (switched:boolean): ISetPending => {
+  return {
+    type: SET_PENDING,
+    payload: {
+      switched,
+    },
+  };
+};
 
 export interface IMoveDownCity {
   type: typeof MOVE_DOWN_CITY;
@@ -92,7 +109,9 @@ export const restoreCity = (id: string): IRestoreCity => {
 };
 
 export const searchCity = (name: string) => {
-  return (dispatch: Dispatch) => axios(GET_WEATHER_BY_CITY_NAME(name))
+  return (dispatch: Dispatch) => {
+    dispatch(setPending(true));
+    return axios(GET_WEATHER_BY_CITY_NAME(name))
     .then(res => res.data)
     .then(
       data => {
@@ -106,8 +125,10 @@ export const searchCity = (name: string) => {
         };
         dispatch(addCity(newCity));
       },
-      err => dispatch(addCityError(err)),
-    );
+    )
+    .catch(err => dispatch(addCityError(err)))
+    .finally(() => dispatch(setPending(false)));
+  };
 };
 
 export interface IAddCityError {
@@ -132,4 +153,5 @@ export type ICitiesAction =
   | IMoveUpCity
   | IRemoveCity
   | IRestoreCity
+  | ISetPending
   ;

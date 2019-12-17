@@ -37,7 +37,7 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
           onClick={() => console.log('modal show', record.name)}
         >
           {record.name}
-        </Button>
+        </Button>,
     },
     {
       title: 'Icon',

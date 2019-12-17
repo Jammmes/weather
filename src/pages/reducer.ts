@@ -1,4 +1,4 @@
-import { ADD_CITY, MOVE_UP_CITY, ICitiesAction, MOVE_DOWN_CITY, REMOVE_CITY, RESTORE_CITY } from './actions';
+import { ADD_CITY, MOVE_UP_CITY, ICitiesAction, MOVE_DOWN_CITY, REMOVE_CITY, RESTORE_CITY, SET_PENDING } from './actions';
 
 const initState: ICitiesState = {
   list: [],
@@ -76,6 +76,10 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
         return city;
       });
       return { ...state, list: [...newList] };
+    }
+    case SET_PENDING: {
+      const { switched } = action.payload;
+      return { ...state, isPending:switched };
     }
     default:
       return state;
