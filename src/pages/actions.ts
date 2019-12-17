@@ -3,18 +3,18 @@ import { GET_WEATHER_BY_CITY_NAME } from '@/api/endpoints';
 import { Dispatch } from 'redux';
 import axios from 'axios';
 
-export const ADD_CITY = 'ADD_CITY';
+export const ADD_CITY_SUCCESS = 'ADD_CITY_SUCCESS';
 
-export interface IAddCity {
-  type: typeof ADD_CITY;
+export interface IAddCitySuccess {
+  type: typeof ADD_CITY_SUCCESS;
   payload: {
     city: ICity,
   };
 }
 
-export const addCity = (city: ICity): IAddCity => {
+export const addCitySuccess = (city: ICity): IAddCitySuccess => {
   return {
-    type: ADD_CITY,
+    type: ADD_CITY_SUCCESS,
     payload: {
       city,
     },
@@ -35,7 +35,7 @@ export interface ISetPending {
   };
 }
 
-export const setPending = (switched:boolean): ISetPending => {
+export const setPending = (switched: boolean): ISetPending => {
   return {
     type: SET_PENDING,
     payload: {
@@ -112,22 +112,25 @@ export const searchCity = (name: string) => {
   return (dispatch: Dispatch) => {
     dispatch(setPending(true));
     return axios(GET_WEATHER_BY_CITY_NAME(name))
-    .then(res => res.data)
-    .then(
-      data => {
-        const newCity = {
-          id: data.id,
-          name: data.name,
-          temperature: data.main.temp,
-          position: 0,
-          isDeleted: false,
-          icon: data.weather[0].icon,
-        };
-        dispatch(addCity(newCity));
-      },
-    )
-    .catch(err => dispatch(addCityError(err)))
-    .finally(() => dispatch(setPending(false)));
+      .then(res => res.data)
+      .then(
+        data => {
+          const newCity = {
+            id: data.id,
+            name: data.name,
+            temperature: data.main.temp,
+            position: 0,
+            isDeleted: false,
+            icon: data.weather[0].icon,
+          };
+          dispatch(addCitySuccess(newCity));
+        },
+      )
+      .catch(err => {
+        const { response: { data: { message } } } = err;
+        return dispatch(addCityError(message));
+      })
+      .finally(() => dispatch(setPending(false)));
   };
 };
 
@@ -148,7 +151,8 @@ export const addCityError = (error: string): IAddCityError => {
 };
 
 export type ICitiesAction =
-  IAddCity
+  IAddCitySuccess
+  | IAddCityError
   | IMoveDownCity
   | IMoveUpCity
   | IRemoveCity
