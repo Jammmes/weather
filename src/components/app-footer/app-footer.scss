@@ -7,9 +7,10 @@
 }
 
 .footer{
-  height: 20px;
-  background: $footer-back-color;
-  color: $footer-text-color;
+  border-top: 1px solid $line-color;
+  height: 24px;
+  background: $element-color;
+  color: $primary-color;
   display: flex;
   align-items: center;
   justify-content: center;

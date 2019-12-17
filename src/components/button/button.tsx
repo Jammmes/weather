@@ -13,6 +13,7 @@ export interface IButton {
   size?: ButtonSizes;
   type?: ButtonTypes;
   onClick?: () => void;
+  className?: string;
 }
 
 export const Button: FunctionComponent<IButton> = ({
@@ -22,10 +23,18 @@ export const Button: FunctionComponent<IButton> = ({
   type,
   children,
   onClick = () => false,
+  className = '',
 }) => {
 
   return (
-    <AntButton disabled={disabled} icon={icon} size={size} type={type} onClick={onClick}>
+    <AntButton
+      disabled={disabled}
+      icon={icon}
+      size={size}
+      type={type}
+      onClick={onClick}
+      className={className}
+    >
       {children}
     </AntButton>
   );

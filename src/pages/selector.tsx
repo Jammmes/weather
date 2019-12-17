@@ -52,40 +52,37 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
       key: 'temperature',
     },
     {
-      title: 'Up',
+      title: 'Actions',
       dataIndex: '',
-      key: 'up',
+      key: 'actions',
       render: (text: string, record: any) =>
-        <Button
-          icon='caret-up'
-          size='small'
-          onClick={() => dispatch(moveUpCity(record.id))}
-        />,
-    },
-    {
-      title: 'Down',
-      dataIndex: '',
-      key: 'down',
-      render: (text: string, record: any) =>
-        <Button
-          icon='caret-down'
-          size='small'
-          onClick={() => dispatch(moveDownCity(record.id))}
-        />,
-    },
-    {
-      title: 'Action',
-      dataIndex: '',
-      key: 'action',
-      render: (text: string, record: any) =>
-        <Button
-          icon={record.isDeleted ? 'select' : 'rest'}
-          type={record.isDeleted ? 'primary' : 'danger'}
-          size='small'
-          onClick={() => record.isDeleted ? dispatch(restoreCity(record.id)) : dispatch(removeCity(record.id))}
-        >
-          {record.isDeleted ? 'Restore' : 'Remove'}
-        </Button>,
+        <div className={styles.buttonGroup}>
+          <Button
+            icon='caret-up'
+            size='small'
+            onClick={() => dispatch(moveUpCity(record.id))}
+            className={styles.buttonItem}
+          >
+            Up
+          </Button>
+          <Button
+            icon='caret-down'
+            size='small'
+            onClick={() => dispatch(moveDownCity(record.id))}
+            className={styles.buttonItem}
+          >
+            Down
+            </Button>
+          <Button
+            icon={record.isDeleted ? 'select' : 'rest'}
+            type={record.isDeleted ? 'primary' : 'danger'}
+            size='small'
+            onClick={() => record.isDeleted ? dispatch(restoreCity(record.id)) : dispatch(removeCity(record.id))}
+            className={styles.buttonItem}
+          >
+            {record.isDeleted ? 'Restore' : 'Remove'}
+          </Button>
+        </div>,
     },
   ];
 

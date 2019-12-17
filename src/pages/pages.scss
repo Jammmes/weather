@@ -7,3 +7,14 @@
 .icon {
     height: 50px;
 }
+
+.button-group{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.button-item{
+    margin-left: $gutter-8;
+}
