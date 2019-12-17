@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/button';
 import { Dispatch } from 'redux';
 import { ICity } from './reducer';
@@ -8,8 +8,24 @@ import styles from './pages.scss';
 import { moveUpCity, moveDownCity, restoreCity, removeCity } from './actions';
 import { PageTypes } from '@/app/types';
 import { GET_WEATHER_ICON } from '@/api/endpoints';
+import { ModalCard } from '@/components/modal-card';
 
 export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes) => {
+
+  //
+  const [isVisible, toggleVisiblity] = useState(false);
+
+  const showModal = () => {
+    toggleVisiblity(!isVisible);
+  }
+  const onOk = () => {
+    toggleVisiblity(false);
+  }
+  const onCancel = () => {
+    toggleVisiblity(false);
+  }
+  //
+
 
   const dataSource = list.slice()
     .sort((a: ICity, b: ICity) => a.position > b.position ? -1 : 1)
@@ -32,12 +48,21 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
       dataIndex: 'city',
       key: 'city',
       render: (text: string, record: any) =>
-        <Button
-          type='link'
-          onClick={() => console.log('modal show', record.name)}
-        >
-          {record.name}
-        </Button>,
+        <>
+          <ModalCard isVisible={isVisible} onCancel={onCancel} title={`The card of ${record.name} city`}>
+            <img src={GET_WEATHER_ICON(record.icon)} alt='icon'></img>
+            <input type="text" value={record.name} readOnly={false} />
+            <input type="text" value={record.temperature} />
+            <Button>Save</Button>
+            <Button>Cancel</Button>
+          </ModalCard>
+          <Button
+            type='link'
+            onClick={() => showModal()}
+          >
+            {record.name}
+          </Button>
+        </>,
     },
     {
       title: 'Icon',

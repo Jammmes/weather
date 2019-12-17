@@ -7,14 +7,12 @@ import styles from './modal-card.scss';
 export interface IModalCardProps {
   title: string;
   isVisible: boolean;
-  onOk: () => void;
   onCancel: () => void;
 }
 
 export const ModalCard: FunctionComponent<IModalCardProps> = ({
   title,
   isVisible,
-  onOk,
   onCancel,
   children,
 }) => {
@@ -23,9 +21,12 @@ export const ModalCard: FunctionComponent<IModalCardProps> = ({
     <Modal
       title={title}
       visible={isVisible}
-      onOk={onOk}
       onCancel={onCancel}
+      footer={[
+
+      ]}
     >
+      <input />
       {children}
     </Modal>
 
