@@ -3,5 +3,21 @@
 .root {
   color:$text-color;
   flex: 1 1 auto;
-  padding: 0 $gutter-16;
+  padding: 0 $gutter-250;
+
+  @include respondTo(small-desktops) {
+    padding:0 $gutter-150;
+  }
+
+  @include respondTo(tablets) {
+    padding:0 $gutter-48;
+  }
+
+  @include respondTo(wide-phones) {
+    padding:0 $gutter-16;
+  }
+
+  @include respondTo(phones) {
+    padding:0;
+  }
 }
