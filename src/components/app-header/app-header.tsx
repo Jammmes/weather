@@ -28,6 +28,7 @@ export const AppHeader: FunctionComponent<{}> = () => {
     error,
     onQueryChange,
     onSearch,
+    query,
   };
 
   return (
