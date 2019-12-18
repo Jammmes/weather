@@ -12,10 +12,10 @@ export const Active: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
 
   const state = useSelector(citiesSelector);
-  const { list } = state;
+  const { list, isPending } = state;
   const { dataSource, columns } = useTable(list, dispatch, 'ACTIVE');
 
   return <div className={styles.root}>
-    <Table columns={columns} dataSource={dataSource} />
+    <Table columns={columns} dataSource={dataSource} loading={isPending} />
   </div>;
 }
