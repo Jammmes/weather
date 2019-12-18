@@ -127,8 +127,13 @@ export const searchCity = (name: string) => {
         },
       )
       .catch(err => {
-        const { response: { data: { message } } } = err;
-        return dispatch(addCityError(message));
+        let preparedError = 'Unknown error';
+        if (err.response) {
+          const { response: { data: { message } } } = err;
+          preparedError = message;
+        }
+
+        return dispatch(addCityError(preparedError));
       })
       .finally(() => dispatch(setPending(false)));
   };
