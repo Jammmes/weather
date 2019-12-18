@@ -47,6 +47,7 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
       if (sameCity.length) {
         newList = list.map((item: ICity) => {
           if (item.id === city.id) {
+            item.name = city.name;
             item.temperature = city.temperature;
             item.icon = city.icon;
           }
@@ -68,9 +69,7 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
       const { list } = state;
       const newList = list.map((city: ICity) => {
         if (city.id === id) {
-          if (city.position < list.length) {
-            city.position++;
-          }
+          city.position++;
         }
         return city;
       });
@@ -82,9 +81,7 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
       const { list } = state;
       const newList = list.map((city: ICity) => {
         if (city.id === id) {
-          if (city.position > 0) {
-            city.position--;
-          }
+          city.position--;
         }
         return city;
       });

@@ -1,1 +1,17 @@
 @import '../../styles.scss';
+
+.root{
+  display: flex;
+  justify-content: center;
+}
+.icon{
+  display: flex;
+  justify-content: center;
+}
+
+.controlls{
+  border-radius: 4px;
+  width: 60%;
+  margin: $gutter-8;
+  height: 80%;
+}
