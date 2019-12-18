@@ -2,6 +2,7 @@ import React, { FunctionComponent, ReactElement, ReactNode } from 'react';
 import cn from 'classnames';
 
 import styles from './panel.scss';
+
 import { IPanelSection } from './types';
 
 export interface IPanelProps {
@@ -9,7 +10,7 @@ export interface IPanelProps {
   className?: string;
 }
 
-export const Panel: FunctionComponent<IPanelProps> = ({ className = '', children }:IPanelProps) => {
+export const Panel: FunctionComponent<IPanelProps> = ({ className = '', children }: IPanelProps) => {
   return (
     <section className={cn(styles.root, className)}>{children}</section>
   );

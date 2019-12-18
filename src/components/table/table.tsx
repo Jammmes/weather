@@ -1,12 +1,10 @@
-import React, { FunctionComponent, Component } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Table as AntTable } from 'antd';
 import 'antd/lib/table/style/css';
 
-import styles from './table.scss';
-
 export interface ITableProps {
-  dataSource: any;
-  columns: any;
+  dataSource: any[];
+  columns: any[];
   loading: boolean;
 }
 

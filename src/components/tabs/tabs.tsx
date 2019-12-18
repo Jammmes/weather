@@ -28,6 +28,5 @@ export const Tabs: FunctionComponent<ITabsProps> = ({ onChange, tabs, content })
         {renderTabs}
       </AntTabs>
     </div>
-
   );
 };

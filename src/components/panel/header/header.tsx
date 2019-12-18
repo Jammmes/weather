@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import cn from 'classnames';
 
 import styles from './header.scss';
+
 import { IPanelSection } from '../types';
 
 export const Header: FunctionComponent<IPanelSection> = ({

@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import cn from 'classnames';
 
 import styles from './footer.scss';
+
 import { IPanelSection } from '../types';
 
 export const Footer: FunctionComponent<IPanelSection> = ({
