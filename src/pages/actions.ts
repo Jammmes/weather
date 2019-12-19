@@ -2,6 +2,7 @@ import { ICity } from './reducer';
 import { GET_WEATHER_BY_CITY_NAME } from '@/api/endpoints';
 import { Dispatch } from 'redux';
 import axios from 'axios';
+import { clearQuery } from '@/components/app-header/actions';
 
 export const ADD_CITY_SUCCESS = 'ADD_CITY_SUCCESS';
 
@@ -124,6 +125,7 @@ export const searchCity = (name: string) => {
             icon: data.weather[0].icon,
           };
           dispatch(addCitySuccess(newCity));
+          dispatch(clearQuery());
         },
       )
       .catch(err => {
