@@ -9,6 +9,7 @@ import { moveUpCity, moveDownCity, restoreCity, removeCity, addCitySuccess } fro
 import { PageTypes } from '@/app/types';
 import { GET_WEATHER_ICON } from '@/api/endpoints';
 import { ModalCard } from '@/components/modal-card';
+import { ModalConfirm } from '@/components/modal-confirm';
 
 export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes) => {
 
@@ -28,6 +29,10 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
     setCurrentCity(city);
     toggleVisiblity(!isVisible);
   }, []);
+
+  const onRestore = useCallback((id:string) => {
+    dispatch(restoreCity(id));
+  }, [dispatch]);
 
   const dataSource = list.slice()
     .sort((a: ICity, b: ICity) => a.position > b.position ? -1 : 1)
@@ -100,7 +105,7 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
             icon={record.isDeleted ? 'select' : 'rest'}
             type={record.isDeleted ? 'primary' : 'danger'}
             size='small'
-            onClick={() => record.isDeleted ? dispatch(restoreCity(record.id)) : dispatch(removeCity(record.id))}
+            onClick={record.isDeleted ? () => onRestore(record.id) :() => ModalConfirm(record, dispatch)}
             className={styles.buttonItem}
           >
             {record.isDeleted ? 'Restore' : 'Remove'}
