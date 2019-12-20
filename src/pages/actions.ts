@@ -3,6 +3,7 @@ import { GET_WEATHER_BY_CITY_NAME } from '@/api/endpoints';
 import { Dispatch } from 'redux';
 import axios from 'axios';
 import { clearQuery } from '@/components/app-header/actions';
+import { PageTypes } from '@/app/types';
 
 export const ADD_CITY_SUCCESS = 'ADD_CITY_SUCCESS';
 
@@ -22,9 +23,8 @@ export const addCitySuccess = (city: ICity): IAddCitySuccess => {
   };
 };
 
-export const MOVE_DOWN_CITY = 'MOVE_DOWN_CITY';
-export const MOVE_UP_CITY = 'MOVE_UP_CITY';
-export const REMOVE_CITY = 'REMOVE_CITY';
+export const MOVE_CITY = 'MOVE_CITY';
+export const DELETE_CITY = 'DELETE_CITY';
 export const RESTORE_CITY = 'RESTORE_CITY';
 export const ADD_CITY_ERROR = 'ADD_CITY_ERROR';
 export const SET_PENDING = 'SET_PENDING';
@@ -45,48 +45,34 @@ export const setPending = (switched: boolean): ISetPending => {
   };
 };
 
-export interface IMoveDownCity {
-  type: typeof MOVE_DOWN_CITY;
+export interface IMoveCity {
+  type: typeof MOVE_CITY;
   payload: {
-    id: string,
+    newSortedArray: ICity[],
+    pageType: PageTypes,
   };
 }
 
-export const moveDownCity = (id: string): IMoveDownCity => {
+export const moveCity = (newSortedArray: ICity[], pageType: PageTypes): IMoveCity => {
   return {
-    type: MOVE_DOWN_CITY,
+    type: MOVE_CITY,
     payload: {
-      id,
+      newSortedArray,
+      pageType,
     },
   };
 };
 
-export interface IMoveUpCity {
-  type: typeof MOVE_UP_CITY;
+export interface IDeleteCity {
+  type: typeof DELETE_CITY;
   payload: {
     id: string,
   };
 }
 
-export const moveUpCity = (id: string): IMoveUpCity => {
+export const deleteCity = (id: string): IDeleteCity => {
   return {
-    type: MOVE_UP_CITY,
-    payload: {
-      id,
-    },
-  };
-};
-
-export interface IRemoveCity {
-  type: typeof REMOVE_CITY;
-  payload: {
-    id: string,
-  };
-}
-
-export const removeCity = (id: string): IRemoveCity => {
-  return {
-    type: REMOVE_CITY,
+    type: DELETE_CITY,
     payload: {
       id,
     },
@@ -160,9 +146,8 @@ export const addCityError = (error: string): IAddCityError => {
 export type ICitiesAction =
   IAddCitySuccess
   | IAddCityError
-  | IMoveDownCity
-  | IMoveUpCity
-  | IRemoveCity
+  | IMoveCity
+  | IDeleteCity
   | IRestoreCity
   | ISetPending
   ;

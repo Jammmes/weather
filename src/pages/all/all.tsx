@@ -13,8 +13,8 @@ export const All: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
 
   const state = useSelector(citiesSelector);
-  const { list, isPending } = state;
-  const { dataSource, columns } = useTable(list, dispatch, 'ALL');
+  const { isPending } = state;
+  const { dataSource, columns } = useTable(state, dispatch, 'ALL');
 
   return <div className={styles.root}>
     <Table columns={columns} dataSource={dataSource} loading={isPending} />

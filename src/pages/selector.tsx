@@ -3,15 +3,16 @@ import { Dispatch } from 'redux';
 
 import styles from './pages.scss';
 
-import { ICity } from './reducer';
+import { ICity, ICitiesState } from './reducer';
 import { Button } from '@/components/button';
-import { moveUpCity, moveDownCity, restoreCity, removeCity, addCitySuccess } from './actions';
+import { moveCity, restoreCity, addCitySuccess } from './actions';
 import { PageTypes } from '@/app/types';
 import { GET_WEATHER_ICON } from '@/api/endpoints';
 import { ModalCard } from '@/components/modal-card';
 import { ModalConfirm } from '@/components/modal-confirm';
+import { getNewSortedCities } from '@/utils/sort';
 
-export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes) => {
+export const useTable = (state: ICitiesState, dispatch: Dispatch, pageType: PageTypes) => {
 
   const [isVisible, toggleVisiblity] = useState(false);
   const [currentCity, setCurrentCity] = useState();
@@ -30,24 +31,29 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
     toggleVisiblity(!isVisible);
   }, []);
 
-  const onRestore = useCallback((id:string) => {
+  const onRestore = useCallback((id: string) => {
     dispatch(restoreCity(id));
   }, [dispatch]);
 
-  const dataSource = list.slice()
-    .sort((a: ICity, b: ICity) => a.position > b.position ? -1 : 1)
-    .filter(city => {
-      switch (pageType) {
-        case 'DELETED': {
-          return city.isDeleted === true;
-        }
-        case 'ACTIVE': {
-          return city.isDeleted === false;
-        }
-        default:
-          return city;
+  const getProperList = () => {
+    switch (pageType) {
+      case 'ALL': {
+        return state.all;
       }
-    });
+      case 'ACTIVE': {
+        return state.active;
+      }
+      case 'DELETED': {
+        return state.deleted;
+      }
+      default:
+        return state.all;
+    }
+  }
+
+  const properList = getProperList();
+
+  const dataSource = properList.slice();
 
   const columns = [
     {
@@ -62,7 +68,12 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
           >
             {record.name}
           </Button>
-          {<ModalCard isVisible={isVisible} onCancel={onCancel} onSave={onSave} city={currentCity} />}
+          {<ModalCard
+            isVisible={isVisible}
+            onCancel={onCancel}
+            onSave={onSave}
+            city={currentCity}
+          />}
         </>,
     },
     {
@@ -88,7 +99,11 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
           <Button
             icon='caret-up'
             size='small'
-            onClick={() => dispatch(moveUpCity(record.id))}
+            onClick={() => {
+              const newSortedArray = getNewSortedCities(dataSource, record.id, 'UP');
+              dispatch(moveCity(newSortedArray, pageType))
+            }
+            }
             className={styles.buttonItem}
           >
             Up
@@ -96,7 +111,11 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
           <Button
             icon='caret-down'
             size='small'
-            onClick={() => dispatch(moveDownCity(record.id))}
+            onClick={() => {
+              const newSortedArray = getNewSortedCities(dataSource, record.id, 'DOWN');
+              dispatch(moveCity(newSortedArray, pageType))
+            }
+            }
             className={styles.buttonItem}
           >
             Down
@@ -105,7 +124,7 @@ export const useTable = (list: ICity[], dispatch: Dispatch, pageType: PageTypes)
             icon={record.isDeleted ? 'select' : 'rest'}
             type={record.isDeleted ? 'primary' : 'danger'}
             size='small'
-            onClick={record.isDeleted ? () => onRestore(record.id) :() => ModalConfirm(record, dispatch)}
+            onClick={record.isDeleted ? () => onRestore(record.id) : () => ModalConfirm(record, dispatch)}
             className={styles.buttonItem}
           >
             {record.isDeleted ? 'Restore' : 'Remove'}

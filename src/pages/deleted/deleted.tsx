@@ -12,8 +12,8 @@ export const Deleted: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
 
   const state = useSelector(citiesSelector);
-  const { list, isPending } = state;
-  const { dataSource, columns } = useTable(list, dispatch, 'DELETED');
+  const { isPending } = state;
+  const { dataSource, columns } = useTable(state, dispatch, 'DELETED');
 
   return <div className={styles.root}>
     <Table columns={columns} dataSource={dataSource} loading={isPending} />

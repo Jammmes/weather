@@ -1,16 +1,17 @@
 import {
   ADD_CITY_SUCCESS,
-  MOVE_UP_CITY,
   ICitiesAction,
-  MOVE_DOWN_CITY,
-  REMOVE_CITY,
+  MOVE_CITY,
+  DELETE_CITY,
   RESTORE_CITY,
   SET_PENDING,
   ADD_CITY_ERROR,
 } from './actions';
 
 const initState: ICitiesState = {
-  list: [],
+  all: [],
+  active: [],
+  deleted: [],
   isPending: false,
   error: '',
 };
@@ -25,7 +26,9 @@ export interface ICity {
 }
 
 export interface ICitiesState {
-  list: ICity[];
+  all: ICity[];
+  active: ICity[];
+  deleted: ICity[];
   isPending: boolean;
   error: string;
 }
@@ -38,14 +41,14 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
   switch (action.type) {
 
     case ADD_CITY_SUCCESS: {
-      const { list } = state;
+      const { all } = state;
       const { city } = action.payload;
-      city.position = list.length;
-      const sameCity = list.filter((item: ICity) => item.id === city.id);
+      city.position = all.length;
+      const sameCity = all.filter((item: ICity) => item.id === city.id);
       let newList = [];
       // if we have the same, just update it
       if (sameCity.length) {
-        newList = list.map((item: ICity) => {
+        newList = all.map((item: ICity) => {
           if (item.id === city.id) {
             item.name = city.name;
             item.temperature = city.temperature;
@@ -54,9 +57,15 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
           return item;
         });
       } else {
-        newList = [...list, city];
+        newList = [...all, city];
       }
-      return { ...state, error: '', list: newList };
+      const newActive = newList.filter((city: ICity) => city.isDeleted === false);
+      return {
+        ...state,
+        error: '',
+        all: newList,
+        active: [...newActive],
+      };
     }
 
     case ADD_CITY_ERROR: {
@@ -64,52 +73,54 @@ const citiesReducer = (state: any = initState, action: ICitiesAction) => {
       return { ...state, error };
     }
 
-    case MOVE_UP_CITY: {
-      const { id } = action.payload;
-      const { list } = state;
-      const newList = list.map((city: ICity) => {
-        if (city.id === id) {
-          city.position++;
-        }
-        return city;
-      });
-      return { ...state, list: [...newList] };
+    case MOVE_CITY: {
+      const { newSortedArray, pageType } = action.payload;
+
+      if (pageType === 'ALL') {
+        return { ...state, all: [...newSortedArray] };
+      }
+
+      return pageType === 'ACTIVE'
+        ? { ...state, active: [...newSortedArray] }
+        : { ...state, deleted: [...newSortedArray] };
     }
 
-    case MOVE_DOWN_CITY: {
+    case DELETE_CITY: {
       const { id } = action.payload;
-      const { list } = state;
-      const newList = list.map((city: ICity) => {
-        if (city.id === id) {
-          city.position--;
-        }
-        return city;
-      });
-      return { ...state, list: [...newList] };
-    }
-
-    case REMOVE_CITY: {
-      const { id } = action.payload;
-      const { list } = state;
-      const newList = list.map((city: ICity) => {
+      const { all } = state;
+      const newList = all.map((city: ICity) => {
         if (city.id === id) {
           city.isDeleted = true;
         }
         return city;
       });
-      return { ...state, list: [...newList] };
+      const deletedCity = all.filter((city: ICity) => city.isDeleted === true);
+      const activeCity = all.filter((city: ICity) => city.isDeleted === false);
+      return {
+        ...state,
+        all: [...newList],
+        active: [...activeCity],
+        deleted: [...deletedCity],
+      };
     }
 
     case RESTORE_CITY: {
       const { id } = action.payload;
-      const { list } = state;
-      const newList = list.map((city: ICity) => {
+      const { all } = state;
+      const newList = all.map((city: ICity) => {
         if (city.id === id) {
           city.isDeleted = false;
         }
         return city;
       });
-      return { ...state, list: [...newList] };
+      const deletedCity = all.filter((city: ICity) => city.isDeleted === true);
+      const activeCity = all.filter((city: ICity) => city.isDeleted === false);
+      return {
+        ...state,
+        all: [...newList],
+        active: [...activeCity],
+        deleted: [...deletedCity],
+      };
     }
 
     case SET_PENDING: {
